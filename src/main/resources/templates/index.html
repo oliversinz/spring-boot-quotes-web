@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+   xmlns:th="http://thymeleaf.org"
+   xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+   <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>World of Quotes</title>
+      <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css" />
+      <link rel="stylesheet" th:href="@{/css/basic.css}" />
+      <script src="/webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+   </head>
+   <body>
+      <div class="col-lg-8 mx-auto p-3 py-md-5">
+         <header class="d-flex align-items-center pb-3 mb-5 border-bottom">
+            <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+               <span class="fs-4">World of Quotes</span>
+            </a>
+         </header>
+         <main>
+            <h1>World of Quotes</h1>
+            <p class="fs-5 col-md-8">More than 10.000 famous quotes by more than famous 100 authors.</p>
+            <div class="mb-5">
+               <a th:href = "@{/quotes}" class="btn btn-primary btn-lg px-4">All Quotes</a>
+            </div>
+            <hr class="col-3 col-md-2 mb-5" />
+            <div class="row g-5">
+               <div class="col-md-6">
+                  <h2>Authors</h2>
+                  <p>Famous quotes by Author</p>
+                  <ul class="icon-list">
+                     <li><a th:href = "@{/authors}">All Authors</a></li>
+                  </ul>
+               </div>
+               <div class="col-md-6">
+                  <h2>Categories</h2>
+                  <p>Famous quotes by Category</p>
+                  <ul class="icon-list">
+                     <li><a th:href = "@{/categories}">All Categories</a></li>
+                  </ul>
+               </div>
+            </div>
+         </main>
+         <footer class="pt-5 my-5 text-muted border-top">
+            Created by the Cloudwards team &middot; &copy; 2022
+         </footer>
+      </div>
+   </body>
+</html>
