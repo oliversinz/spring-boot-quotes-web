@@ -1,13 +1,18 @@
 package spring.quotes.web.author;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.net.URL;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import spring.quotes.web.exception.ResourceNotFoundException;
+import spring.quotes.web.utils.JacksonUtils;
 
 @Service
 public class AuthorService {
@@ -49,16 +54,44 @@ public class AuthorService {
     }
 
     public Author getAuthorById(Long id) {
-        Author author = checkAuthorExists(id);
-        return author;
+        return authorRepository.findById(id).get();
     }
 
-    public Author getAuthorBySlug(String slug) {
+    public Optional<Author> getAuthorByName(String name) {
+
+        if (authorRepository.existsByAuthorName(name)) {
+            return authorRepository.findByAuthorName(name);
+        } else {
+            try {
+                return jsonToDatabase("https://api.quotable.io/search/authors?query=" + name);
+            } catch (Exception e) {
+                return Optional.empty();
+            }
+        }
+
+    }
+
+    public Optional<Author> getAuthorBySlug(String slug) {
+
         return authorRepository.findByAuthorSlug(slug);
+
     }
 
-    private Author checkAuthorExists(Long id) {
-        return authorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Author", "id", id));
+    private Optional<Author> jsonToDatabase(String urlString) throws Exception {
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode treeNode = mapper.readTree(new URL(urlString));
+        treeNode = treeNode.findValue("results");
+
+        Author author = new Author();
+        author.setAuthorName(treeNode.get("author").asText());
+        author.setAuthorDescription(treeNode.get("author").asText());
+        authorRepository.save(author);
+
+        System.out.println("Records inserted.....");
+
+        return Optional.of(author);
+
     }
 
 }

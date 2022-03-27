@@ -67,14 +67,21 @@ public class QuoteController {
         Page<Quote> page = quoteService.findPaginatedAuthor(authorSlug, pageNo, pageSize);
         List<Quote> quotePage = page.getContent();
 
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("quotePage", quotePage);
-        
-        model.addAttribute("authorName", authorService.getAuthorBySlug(authorSlug).getAuthorName());
-        
-        return "quote-list-view-author";
+        if (!quotePage.isEmpty()) {
+
+            model.addAttribute("currentPage", pageNo);
+            model.addAttribute("totalPages", page.getTotalPages());
+            model.addAttribute("totalItems", page.getTotalElements());
+            model.addAttribute("quotePage", quotePage);
+
+            model.addAttribute("authorName", authorService.getAuthorBySlug(authorSlug).get().getAuthorName());
+
+            return "quote-list-view-author";
+
+        }
+
+        return "redirect:/error-404";
+
     }
 
     @GetMapping("/quotes/category/{categorySlug}")
@@ -89,14 +96,21 @@ public class QuoteController {
         Page<Quote> page = quoteService.findPaginatedCategory(categorySlug, pageNo, pageSize);
         List<Quote> quotePage = page.getContent();
 
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("quotePage", quotePage);
-        
-        model.addAttribute("categoryName", categoryService.getCategoryBySlug(categorySlug).getCategoryName());
-        
-        return "quote-list-view-category";
+        if (!quotePage.isEmpty()) {
+
+            model.addAttribute("currentPage", pageNo);
+            model.addAttribute("totalPages", page.getTotalPages());
+            model.addAttribute("totalItems", page.getTotalElements());
+            model.addAttribute("quotePage", quotePage);
+
+            model.addAttribute("categoryName", categoryService.getCategoryBySlug(categorySlug).getCategoryName());
+
+            return "quote-list-view-category";
+
+        }
+
+        return "redirect:/error-404";
+
     }
 
     @GetMapping("/quotes/{id}")

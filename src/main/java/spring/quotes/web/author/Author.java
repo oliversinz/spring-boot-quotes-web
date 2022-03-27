@@ -1,5 +1,6 @@
 package spring.quotes.web.author;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
@@ -17,6 +18,7 @@ import javax.persistence.UniqueConstraint;
 import spring.quotes.web.quote.Quote;
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "author", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"author_name"})})
 public class Author implements Serializable {
@@ -103,6 +105,11 @@ public class Author implements Serializable {
         return Normalizer.normalize(string.toLowerCase(), Form.NFD)
                 .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
                 .replaceAll("[^\\p{Alnum}]+", "-");
+    }
+
+    @Override
+    public String toString() {
+        return authorName;
     }
 
 }

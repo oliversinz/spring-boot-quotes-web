@@ -56,8 +56,9 @@ public class AuthorController {
 
     @GetMapping("/authors/by/{slug}")
     public String getAuthorBySlug(@PathVariable(name = "slug") String slug, Model model) {
-        model.addAttribute("author", authorService.getAuthorBySlug(slug));
+        model.addAttribute("author", authorService.getAuthorBySlug(slug).get());
         return "author-details";
+
     }
 
 }

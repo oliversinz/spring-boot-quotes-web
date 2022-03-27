@@ -1,6 +1,7 @@
 package spring.quotes.web.author;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AuthorRepository extends JpaRepository<Author, Long> {
@@ -9,9 +10,9 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
 
     Boolean existsByAuthorSlug(String authorSlug);
 
-    Author findByAuthorName(String authorName);
+    Optional<Author> findByAuthorName(String authorName);
 
-    Author findByAuthorSlug(String authorSlug);
+    Optional<Author> findByAuthorSlug(String authorSlug);
 
     List<Author> findByAuthorNameContaining(String search);
 

@@ -1,5 +1,6 @@
 package spring.quotes.web.category;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.text.Normalizer;
 import java.util.HashSet;
@@ -15,6 +16,7 @@ import javax.persistence.UniqueConstraint;
 import spring.quotes.web.quote.Quote;
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "category", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"category_name"})})
 public class Category implements Serializable {
